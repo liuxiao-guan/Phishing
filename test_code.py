@@ -1,0 +1,56 @@
+import pandas as pd
+import tldextract
+from multiprocessing import Process, Queue
+import os, time, random
+def csv_data():
+    result = []
+    df = pd.read_csv(
+        "D:\GuanXiaoLiu\Phishing\\brand_crawl\Client_Name\Insurance_top50_tim.csv",
+        engine='python', encoding="gbk",
+        header=0).values.tolist()
+    df = [b for a in df for b in a]
+    for x in df:
+       if x.find('公司') != -1:
+          result.append(x)
+    result_csv = pd.DataFrame(result)
+    result_csv.to_csv("D:\GuanXiaoLiu\Phishing\\brand_crawl\Client_Name\Insurance_top50.csv",mode='w',encoding="utf8",index=False)
+
+
+def domain():
+    url = "xn--www-jn0fs7it8hv8tzmn7mf1w1eyorpkh.jintanhao.com"
+    val = tldextract.extract(str(url))
+    print(val)
+
+
+# 写数据进程执行的代码:
+def write(q):
+    print('Process to write: %s' % os.getpid())
+    for value in ['A', 'B', 'C']:
+        print('Put %s to queue...' % value)
+        q.put(value)
+        time.sleep(random.random())
+
+# 读数据进程执行的代码:
+def read(q):
+    print('Process to read: %s' % os.getpid())
+    while True:
+        value = q.get(True)
+        print('Get %s from queue.' % value)
+
+if __name__=='__main__':
+    # 父进程创建Queue，并传给各个子进程：
+    q = Queue()
+    pw = Process(target=write, args=(q,))
+    pr = Process(target=read, args=(q,))
+    # 启动子进程pw，写入:
+    pw.start()
+    # 启动子进程pr，读取:
+    pr.start()
+    # 等待pw结束:
+    pw.join()
+    # pr进程里是死循环，无法等待其结束，只能强行终止:
+    pr.terminate()
+
+
+
+# def grequest_test():
