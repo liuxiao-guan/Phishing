@@ -101,7 +101,7 @@ def beautiful_soup(j,SubdomianName):
     print(len(result))
     print('*' * 100)
     result_csv = pd.DataFrame(list(result))
-    result_csv.to_csv("D:\GuanXiaoLiu\Phishing\\brand_crawl\Result\Securities_top50\\" + SubdomianName, index=False, mode='a',
+    result_csv.to_csv("D:\GuanXiaoLiu\Phishing\\brand_crawl\Result\Medicine_top50\\" + SubdomianName, index=False, mode='a',
                       header=None)
 
 k = 0
@@ -110,12 +110,12 @@ def batch_files(start, end, BeianNameList):
         subdomain.clear()
         print(BeianNameList[i])
 
-        # if os.path.getsize("D:\GuanXiaoLiu\Phishing\\brand_crawl\Subdomains\Securities_top50\\"+BeianNameList[i]) >= 2048:
+        # if os.path.getsize("D:\GuanXiaoLiu\Phishing\\brand_crawl\Subdomains\Medicine_top50\\"+BeianNameList[i]) >= 2048:
         #     continue
-        mtime = os.path.getmtime("D:\GuanXiaoLiu\Phishing\\brand_crawl\Subdomains\Securities_top50\\"+BeianNameList[i])
+        mtime = os.path.getmtime("D:\GuanXiaoLiu\Phishing\\brand_crawl\Subdomains\Medicine_top50\\"+BeianNameList[i])
         # if time.localtime(mtime).tm_mday <13 :
         #     continue
-        filename = "D:\GuanXiaoLiu\Phishing\\brand_crawl\Result\Securities_top50\\" + BeianNameList[i]
+        filename = "D:\GuanXiaoLiu\Phishing\\brand_crawl\Result\Medicine_top50\\" + BeianNameList[i]
         # if os.path.exists(filename) :
         #     continue
         if i < start:
@@ -126,14 +126,14 @@ def batch_files(start, end, BeianNameList):
         if BeianNameList[i].find("subdomain_count") != -1:
             continue
 
-        filename = 'D:\GuanXiaoLiu\Phishing\\brand_crawl\Subdomains\Securities_top50\\' +BeianNameList[i]
+        filename = 'D:\GuanXiaoLiu\Phishing\\brand_crawl\Subdomains\Medicine_top50\\' +BeianNameList[i]
         if not os.path.exists(filename):
             continue
         if os.path.getsize(filename) == 0:
             continue
 
         df = pd.read_csv(
-            'D:\GuanXiaoLiu\Phishing\\brand_crawl\Subdomains\Securities_top50\\' +BeianNameList[i]  ,
+            'D:\GuanXiaoLiu\Phishing\\brand_crawl\Subdomains\Medicine_top50\\' +BeianNameList[i]  ,
             engine='python', encoding="UTF-8",
             header=None).values.tolist()
         # df= pd.read_csv("D:\GuanXiaoLiu\Phishing\\brand_crawl\Subdomain2\海通期货股份有限公司\海通期货股份有限公司.csv",encoding="gbk",engine="python",header=None).values.tolist()
@@ -157,7 +157,7 @@ def batch_files(start, end, BeianNameList):
 if __name__ == '__main__':
     session = HTMLSession()
 
-    os.chdir('D:\GuanXiaoLiu\Phishing\\brand_crawl\Subdomains\Securities_top50')
+    os.chdir('D:\GuanXiaoLiu\Phishing\\brand_crawl\Subdomains\Medicine_top50')
     BeianNameList = os.listdir()
     os.chdir('.\\..\\')
     k = 0
@@ -166,7 +166,7 @@ if __name__ == '__main__':
     #batch_files(0,5,BeianNameList)
     for i in range(5):
 
-        t = threading.Thread(target=batch_files, args=(i*5+5,i*5+10,BeianNameList,))
+        t = threading.Thread(target=batch_files, args=(i*2+40,i*2+42,BeianNameList,))
         t.setDaemon(True)    #把子线程设置为守护线程，必须在start()之前设置
         thread_list.append(t)
         t.start()

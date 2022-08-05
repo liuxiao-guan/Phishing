@@ -4,7 +4,7 @@ import shutil
 
 def create_dir():
 
-    os.chdir("D:\GuanXiaoLiu\Download\\brand_logo")
+    os.chdir("D:\GuanXiaoLiu\Download\logo-0727\logo")
     brand_name_list = os.listdir()
     base_file_path = "D:\GuanXiaoLiu\Phishing\\brand_logo\\"
     k = 0
@@ -19,7 +19,7 @@ def copy_url():
     dist_path = "D:\GuanXiaoLiu\Phishing\\brand_logo"
     os.chdir(dist_path)
     brand_names = os.listdir()
-    source_path = "D:\GuanXiaoLiu\Phishing\\brand_crawl\Temp_Result\Top5"
+    source_path = "D:\GuanXiaoLiu\Phishing\\brand_crawl\Temp_Result\hospital_top30"
     for brand_name in brand_names:
         file_path = source_path + "\\"+brand_name+".txt"
         if not os.path.exists(file_path):
@@ -44,5 +44,6 @@ def find_no_logo():
     print(k)
 if __name__ == "__main__":
    #create_dir()
+
    copy_url()
     #find_no_logo()
